@@ -26,7 +26,8 @@ repositories {
 
 dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.3"
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+//    implementation "org.controlsfx:controlsfx:8.40.18";
+    testImplementation "junit:junit:4.12";
 }
 
 jar {
