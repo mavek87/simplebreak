@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.matteoveroni.simplebreak.controller.ControllerProva">
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="80.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btn_aggiungi" mnemonicParsing="false" text="Crea" />
+            <Button fx:id="btn_modifica" mnemonicParsing="false" text="Modifica" />
+            <Button fx:id="btn_elimina" mnemonicParsing="false" text="Elimina" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <ListView fx:id="listview_prova" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
