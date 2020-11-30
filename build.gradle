@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+wrapper {
+    gradleVersion = '6.5'
+}
+
+group 'com.matteoveroni'
+//version '1.0-SNAPSHOT'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
