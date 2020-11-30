@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.knowm.sundial.SundialJobScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,12 @@ public final class App extends Application {
 
     public static final void main(String... args) {
         launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+        SundialJobScheduler.startScheduler();
     }
 
     @Override
@@ -36,5 +43,11 @@ public final class App extends Application {
         } catch (IOException e) {
             throw new IllegalStateException("Cannot load FXML \'" + scenePath + "\'", e);
         }
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+        SundialJobScheduler.shutdown();
     }
 }
