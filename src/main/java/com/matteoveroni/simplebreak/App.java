@@ -1,5 +1,6 @@
 package com.matteoveroni.simplebreak;
 
+import com.matteoveroni.simplebreak.jobs.SimplePomodoroJob;
 import java.io.IOException;
 import java.io.InputStream;
 import javafx.application.Application;
@@ -25,6 +26,7 @@ public final class App extends Application {
     public void init() throws Exception {
         super.init();
         SundialJobScheduler.startScheduler();
+        SundialJobScheduler.addJob("WorkJob", SimplePomodoroJob.class);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.matteoveroni.simplebreak.gui.controller;
 
 import com.matteoveroni.simplebreak.gui.utils.ModificatoreTextField;
-import com.matteoveroni.simplebreak.jobs.SimplePomodoroJob;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,7 +13,6 @@ import org.knowm.sundial.SundialJobScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static com.matteoveroni.simplebreak.gui.utils.ModificatoreTextField.TipoTextField.SOLONUMERICA;
-
 
 public class ControllerTest {
 
@@ -39,24 +38,53 @@ public class ControllerTest {
         ModificatoreTextField.settaRegoleTesto(txt_breakSeconds, SOLONUMERICA, 2, 0, 60);
 
         btn_start.setOnAction(action -> {
-            SundialJobScheduler.addJob("WorkJob", SimplePomodoroJob.class);
-            Date fiveSecondsAfter = new Date(System.currentTimeMillis() + 10000L);
-            LOG.info("now " + LocalDateTime.now());
-            int seconds = Integer.valueOf(txt_workSeconds.getText());
-            LOG.info("seconds " + seconds);
-            int minutes = Integer.valueOf(txt_workMinutes.getText());
-            LOG.info("minutes " + minutes);
-            int hours = Integer.valueOf(txt_workHours.getText());
-            LOG.info("hours " + hours);
+            // TODO: disable button untill trigger finish or remove trigger
+            JobData workData = new JobData(txt_workSeconds, txt_workMinutes, txt_workHours);
             LocalDateTime localDateTimeWork = LocalDateTime.now()
-                    .plus(seconds, ChronoUnit.SECONDS)
-                    .plus(minutes, ChronoUnit.MINUTES)
-                    .plus(hours, ChronoUnit.HOURS);
+                    .plus(workData.getSeconds(), ChronoUnit.SECONDS)
+                    .plus(workData.getMinutes(), ChronoUnit.MINUTES)
+                    .plus(workData.getHours(), ChronoUnit.HOURS);
             LOG.info("localDateTimeWork " + localDateTimeWork);
             Date workTime = Date.from(ZonedDateTime.of(localDateTimeWork, ZoneId.systemDefault()).toInstant());
             LOG.info("workTime " + workTime);
             SundialJobScheduler.addSimpleTrigger("WorkJobTrigger", "WorkJob", 0, 0, workTime, null);
         });
+    }
+
+    private class JobData {
+        private final int seconds;
+        private final int minutes;
+        private final int hours;
+
+        public JobData(TextField txt_seconds, TextField txt_minutes, TextField txt_hours) {
+            this(txt_seconds.getText(), txt_minutes.getText(), txt_hours.getText());
+        }
+
+        public JobData(String seconds, String minutes, String hours) {
+            this.seconds = convertNumericStringToInteger(seconds);
+            this.minutes = convertNumericStringToInteger(minutes);
+            this.hours = convertNumericStringToInteger(hours);
+        }
+
+        public int getSeconds() {
+            return seconds;
+        }
+
+        public int getMinutes() {
+            return minutes;
+        }
+
+        public int getHours() {
+            return hours;
+        }
+
+        private int convertNumericStringToInteger(String numericString) {
+            try {
+                return Integer.parseInt(numericString);
+            } catch (NumberFormatException ex) {
+                return 0;
+            }
+        }
     }
 
 }
