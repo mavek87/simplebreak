@@ -27,6 +27,7 @@ repositories {
 dependencies {
     implementation "org.knowm:sundial:2.2.1"
     implementation "ch.qos.logback:logback-classic:1.2.3"
+    implementation 'org.greenrobot:eventbus:3.2.0'
 //    implementation "com.google.code.gson:gson:2.8.6"
 //    implementation "org.controlsfx:controlsfx:8.40.18";
     testImplementation "junit:junit:4.12";

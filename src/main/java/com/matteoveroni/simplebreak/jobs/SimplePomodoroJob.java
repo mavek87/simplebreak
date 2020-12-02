@@ -1,7 +1,8 @@
 package com.matteoveroni.simplebreak.jobs;
 
 import com.matteoveroni.simplebreak.App;
-import com.matteoveroni.simplebreak.gui.controller.ControllerTest;
+import com.matteoveroni.simplebreak.events.EventEndPomodoroJob;
+import org.greenrobot.eventbus.EventBus;
 import org.knowm.sundial.Job;
 import org.knowm.sundial.exceptions.JobInterruptException;
 import org.slf4j.Logger;
@@ -14,6 +15,6 @@ public class SimplePomodoroJob extends Job {
     @Override
     public void doRun() throws JobInterruptException {
         LOG.info("JOB completed");
-        ControllerTest.notificaFineLavoro();
+        EventBus.getDefault().postSticky(new EventEndPomodoroJob());
     }
 }

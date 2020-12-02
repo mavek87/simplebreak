@@ -1,5 +1,6 @@
 package com.matteoveroni.simplebreak;
 
+import com.matteoveroni.simplebreak.gui.controller.ControllerTest;
 import com.matteoveroni.simplebreak.jobs.SimplePomodoroJob;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,8 @@ public final class App extends Application {
     private static final FXMLLoader FXML_LOADER = new FXMLLoader();
     private static final String MAIN_VIEW = RESOURCE_FOLDER_STRUCTURE_BASE + "/fxml/view_test.fxml";
 
+    private ControllerTest controllerTest;
+
     public static final void main(String... args) {
         launch(args);
     }
@@ -39,10 +42,10 @@ public final class App extends Application {
         SundialJobScheduler.addJob("WorkJob", SimplePomodoroJob.class);
     }
 
-    public static final void loadMainScene(Stage stage) {
+    public final void loadMainScene(Stage stage) {
         try (InputStream inputStream = App.class.getClassLoader().getResourceAsStream(MAIN_VIEW)) {
             Parent root = FXML_LOADER.load(inputStream);
-//            FXML_LOADER.getController();
+            controllerTest = FXML_LOADER.getController();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setWidth(800);
@@ -57,6 +60,7 @@ public final class App extends Application {
     @Override
     public void stop() throws Exception {
         SundialJobScheduler.shutdown();
+        controllerTest.dispose();
         super.stop();
     }
 }

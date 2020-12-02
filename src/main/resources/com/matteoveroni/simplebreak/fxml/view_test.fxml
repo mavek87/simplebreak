@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
@@ -68,12 +69,12 @@
             </BorderPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Label layoutX="20.0" layoutY="35.0" text="Work time" />
+                  <Label layoutX="34.0" layoutY="35.0" text="Work time" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                <children>
-                  <Label layoutX="20.0" layoutY="35.0" text="Break time" />
+                  <CheckBox fx:id="check_breakTime" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="Break time" />
                </children>
             </AnchorPane>
             <BorderPane fx:id="test1" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
@@ -121,6 +122,16 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <children>
                   <Button fx:id="btn_start" layoutY="22.0" mnemonicParsing="false" text="Start" />
+                  <Button fx:id="btn_stop" layoutX="59.0" layoutY="22.0" mnemonicParsing="false" text="Stop" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+               <children>
+                  <Label fx:id="lbl_title" layoutX="24.0" layoutY="27.0" text="Title">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>
