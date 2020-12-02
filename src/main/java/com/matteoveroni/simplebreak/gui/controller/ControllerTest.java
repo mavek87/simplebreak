@@ -6,9 +6,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Optional;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.knowm.sundial.SundialJobScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +43,9 @@ public class ControllerTest {
         ModificatoreTextField.settaRegoleTesto(txt_breakSeconds, SOLONUMERICA, 2, 0, 60);
 
         btn_start.setOnAction(action -> {
+            Stage stage = (Stage) btn_start.getScene().getWindow();
+            stage.setIconified(true);
+
             // TODO: disable button untill trigger finish or remove trigger
             JobData workData = new JobData(txt_workSeconds, txt_workMinutes, txt_workHours);
             LocalDateTime localDateTimeWork = LocalDateTime.now()
@@ -48,6 +56,24 @@ public class ControllerTest {
             Date workTime = Date.from(ZonedDateTime.of(localDateTimeWork, ZoneId.systemDefault()).toInstant());
             LOG.info("workTime " + workTime);
             SundialJobScheduler.addSimpleTrigger("WorkJobTrigger", "WorkJob", 0, 0, workTime, null);
+        });
+    }
+
+    public static void notificaFineLavoro() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Do a break");
+            alert.setContentText("The time for work is over!!!");
+
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.setIconified(false);
+
+            Optional<ButtonType> buttonType = alert.showAndWait();
+            if (buttonType.isPresent() && buttonType.get().equals(ButtonType.OK)) {
+                LOG.info("premuto ok");
+            } else {
+                LOG.info("non ha premuto ok");
+            }
         });
     }
 

@@ -17,6 +17,8 @@ public final class App extends Application {
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
     private static final String APP_NAME = "SimpleBreak";
     private static final String RESOURCE_FOLDER_STRUCTURE_BASE = "com/matteoveroni/simplebreak";
+    private static final FXMLLoader FXML_LOADER = new FXMLLoader();
+    private static final String MAIN_VIEW = RESOURCE_FOLDER_STRUCTURE_BASE + "/fxml/view_test.fxml";
 
     public static final void main(String... args) {
         launch(args);
@@ -26,16 +28,21 @@ public final class App extends Application {
     public void init() throws Exception {
         super.init();
         SundialJobScheduler.startScheduler();
-        SundialJobScheduler.addJob("WorkJob", SimplePomodoroJob.class);
     }
 
     @Override
     public void start(Stage stage) {
         LOG.info("App \'" + APP_NAME + "\' started!");
-        FXMLLoader loader = new FXMLLoader();
-        String scenePath = RESOURCE_FOLDER_STRUCTURE_BASE + "/fxml/view_test.fxml";
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(scenePath)) {
-            Parent root = loader.load(inputStream);
+        
+        loadMainScene(stage);
+
+        SundialJobScheduler.addJob("WorkJob", SimplePomodoroJob.class);
+    }
+
+    public static final void loadMainScene(Stage stage) {
+        try (InputStream inputStream = App.class.getClassLoader().getResourceAsStream(MAIN_VIEW)) {
+            Parent root = FXML_LOADER.load(inputStream);
+//            FXML_LOADER.getController();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setWidth(800);
@@ -43,13 +50,13 @@ public final class App extends Application {
             stage.setTitle(APP_NAME);
             stage.show();
         } catch (IOException e) {
-            throw new IllegalStateException("Cannot load FXML \'" + scenePath + "\'", e);
+            throw new IllegalStateException("Cannot load FXML \'" + MAIN_VIEW + "\'", e);
         }
     }
 
     @Override
     public void stop() throws Exception {
-        super.stop();
         SundialJobScheduler.shutdown();
+        super.stop();
     }
 }

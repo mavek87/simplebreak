@@ -1,6 +1,7 @@
 package com.matteoveroni.simplebreak.jobs;
 
 import com.matteoveroni.simplebreak.App;
+import com.matteoveroni.simplebreak.gui.controller.ControllerTest;
 import org.knowm.sundial.Job;
 import org.knowm.sundial.exceptions.JobInterruptException;
 import org.slf4j.Logger;
@@ -13,5 +14,6 @@ public class SimplePomodoroJob extends Job {
     @Override
     public void doRun() throws JobInterruptException {
         LOG.info("JOB completed");
+        ControllerTest.notificaFineLavoro();
     }
 }
