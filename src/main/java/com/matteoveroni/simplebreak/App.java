@@ -1,6 +1,7 @@
 package com.matteoveroni.simplebreak;
 
 import com.matteoveroni.simplebreak.gui.controller.ControllerTest;
+import com.matteoveroni.simplebreak.jobs.CalcAlarmPercentageJob;
 import com.matteoveroni.simplebreak.jobs.SimplePomodoroJob;
 import java.io.IOException;
 import java.io.InputStream;

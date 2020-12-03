@@ -4,6 +4,7 @@ import com.matteoveroni.simplebreak.audio.AudioManager;
 import com.matteoveroni.simplebreak.domain.Trigger;
 import com.matteoveroni.simplebreak.events.EventEndPomodoroJob;
 import com.matteoveroni.simplebreak.gui.utils.ModificatoreTextField;
+import com.matteoveroni.simplebreak.jobs.CalcAlarmPercentageJob;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -43,7 +44,8 @@ public class ControllerTest {
     private final Map<String, Job> jobMap = new HashMap<>();
     private final Map<String, Object> triggerMap = new HashMap<>();
 
-    private AudioManager audioManager = new AudioManager();
+    private final AudioManager audioManager = new AudioManager();
+
     private Alert alert;
 
     @FXML
@@ -72,6 +74,7 @@ public class ControllerTest {
     public void onEvent(EventEndPomodoroJob event) {
         Platform.runLater(() -> {
             audioManager.playSound(Sound.ALARM1);
+            SundialJobScheduler.removeTrigger("CalcAlarmPercentageTrigger");
             Stage stage = (Stage) btn_start.getScene().getWindow();
             alert.close();
             btn_start.setDisable(false);
@@ -91,10 +94,17 @@ public class ControllerTest {
 
         Date workTime = Date.from(ZonedDateTime.of(localDateTimeWork, ZoneId.systemDefault()).toInstant());
 
-        Trigger trigger = new Trigger("WorkJobTrigger", "WorkJob", 0, 0, workTime, null);
-        SundialJobScheduler.addSimpleTrigger(trigger.getTriggerName(), trigger.getJobName(), trigger.getRepeatCount(), trigger.getRepeatInterval(), trigger.getStartTime(), trigger.getEndTime());
-        triggerMap.put(trigger.getTriggerName(), trigger);
+        Trigger workTrigger = new Trigger("WorkJobTrigger", "WorkJob", 0, 0, workTime, null);
+        SundialJobScheduler.addSimpleTrigger(workTrigger.getTriggerName(), workTrigger.getJobName(), workTrigger.getRepeatCount(), workTrigger.getRepeatInterval(), workTrigger.getStartTime(), workTrigger.getEndTime());
+        triggerMap.put(workTrigger.getTriggerName(), workTrigger);
 
+        HashMap<String, Object> props = new HashMap<>();
+        props.put("startAlarmTime", new Date().getTime());
+        props.put("fireAlarmTime", workTime.getTime());
+        SundialJobScheduler.addJob("CalcAlarmPercentageJob", CalcAlarmPercentageJob.class, props, false);
+        Trigger percentageTrigger = new Trigger("CalcAlarmPercentageTrigger", "CalcAlarmPercentageJob", -1, 1000, null, null);
+        SundialJobScheduler.addSimpleTrigger(percentageTrigger.getTriggerName(), percentageTrigger.getJobName(), percentageTrigger.getRepeatCount(), percentageTrigger.getRepeatInterval(), percentageTrigger.getStartTime(), percentageTrigger.getEndTime());
+        triggerMap.put(percentageTrigger.getTriggerName(), percentageTrigger);
 
         alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Do a break");
