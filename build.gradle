@@ -15,7 +15,7 @@ ext {
 }
 
 // Pass your GITHUB_TOKEN as property
-scmVersion.repository.customUsername = project.property("GITHUB_TOKEN")
+// scmVersion.repository.customUsername = project.property("GITHUB_TOKEN")
 project.version = scmVersion.version
 project.group = packageRoot
 mainClassName = "${packageRoot}.App"

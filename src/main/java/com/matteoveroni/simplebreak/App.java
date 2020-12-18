@@ -1,10 +1,7 @@
 package com.matteoveroni.simplebreak;
 
 import com.matteoveroni.simplebreak.gui.controller.ControllerTest;
-import com.matteoveroni.simplebreak.jobs.CalcAlarmPercentageJob;
 import com.matteoveroni.simplebreak.jobs.SimplePomodoroJob;
-import java.io.IOException;
-import java.io.InputStream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +10,9 @@ import javafx.stage.Stage;
 import org.knowm.sundial.SundialJobScheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public final class App extends Application {
 
@@ -24,7 +24,7 @@ public final class App extends Application {
 
     private ControllerTest controllerTest;
 
-    public static final void main(String... args) {
+    public static void main(String... args) {
         launch(args);
     }
 
@@ -36,7 +36,7 @@ public final class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        LOG.info("App \'" + APP_NAME + "\' started!");
+        LOG.info("App '" + APP_NAME + "' started!");
         
         loadMainScene(stage);
 
@@ -54,7 +54,7 @@ public final class App extends Application {
             stage.setTitle(APP_NAME);
             stage.show();
         } catch (IOException e) {
-            throw new IllegalStateException("Cannot load FXML \'" + MAIN_VIEW + "\'", e);
+            throw new IllegalStateException("Cannot load FXML '" + MAIN_VIEW + "'", e);
         }
     }
 
